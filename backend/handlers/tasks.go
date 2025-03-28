@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mmirzaei559/taskmanager/backend/database"
-	"github.com/mmirzaei559/taskmanager/backend/models"
+	"github.com/mmirzaei559/taskmanager/database"
+	"github.com/mmirzaei559/taskmanager/models"
 )
 
 func GetTasks(w http.ResponseWriter, r *http.Request) {

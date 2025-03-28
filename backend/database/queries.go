@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/mmirzaei559/taskmanager/backend/models"
+	"github.com/mmirzaei559/taskmanager/models"
 )
 
 func GetAllTasks() ([]models.Task, error) {

@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mmirzaei559/taskmanager/backend/database"
-	"github.com/mmirzaei559/taskmanager/backend/handlers"
+	"github.com/mmirzaei559/taskmanager/database"
+	"github.com/mmirzaei559/taskmanager/handlers"
 )
 
 func main() {
