@@ -6,9 +6,9 @@
   "author": "https://github.com/mmirzaei559",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx --fix"
   },
   "dependencies": {
     "react": "^19.0.0",
