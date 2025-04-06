@@ -18,6 +18,7 @@ node_modules/
 backend/bin/
 build/
 .next/
+.node_modules
 
 # Debug files
 *.log
