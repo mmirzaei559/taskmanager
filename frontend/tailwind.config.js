@@ -1,7 +1,7 @@
-module.exports = {
+export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // Make sure this includes all your files
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {},
