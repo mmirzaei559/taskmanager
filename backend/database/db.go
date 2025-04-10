@@ -39,6 +39,21 @@ func InitDB() {
 	}
 
 	log.Println("Connected to MySQL database")
+
+	createTableSQL := `
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        completed BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`
+
+	_, err = DB.Exec(createTableSQL)
+	if err != nil {
+		log.Fatalf("Error creating table: %v", err)
+	}
+	log.Println("Tasks table verified/created")
 }
 
 func CloseDB() {
