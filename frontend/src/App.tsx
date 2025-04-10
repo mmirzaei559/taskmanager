@@ -12,11 +12,14 @@ function App() {
 
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+    console.log(API_BASE_URL);
 
     const fetchTasks = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.get('/api/tasks');
+            const response = await axios.get(`${API_BASE_URL}/api/tasks`);
             if (!Array.isArray(response.data)) {
                 throw new Error('Invalid tasks data format');
             }
@@ -28,7 +31,7 @@ function App() {
             setIsLoading(false);
         }
     };
-    
+
     useEffect(() => {
         fetchTasks();
     }, []);
@@ -49,7 +52,7 @@ function App() {
         }
 
         try {
-            await axios.post('/api/tasks', newTask);
+            await axios.post(`${API_BASE_URL}/api/tasks`, newTask);
             setNewTask({ title: '', description: '' });
             await fetchTasks();
         } catch (err) {
@@ -59,7 +62,7 @@ function App() {
 
     const toggleTaskStatus = async (id: number, currentStatus: boolean) => {
         try {
-            await axios.post('/api/tasks/update', { id, completed: !currentStatus });
+            await axios.post(`${API_BASE_URL}/api/tasks/update`, { id, completed: !currentStatus });
             await fetchTasks();
         } catch (err) {
             setError('Failed to update task');
@@ -68,7 +71,7 @@ function App() {
 
     const runBenchmark = async () => {
         try {
-            await axios.get('/api/benchmark?count=1000');
+            await axios.get(`${API_BASE_URL}/api/benchmark?count=1000`);
             alert('Benchmark completed!');
             await fetchTasks();
         } catch (err) {
@@ -81,9 +84,7 @@ function App() {
             <div className="container">
                 <header className="header">
                     <h1 className="title">Task Manager</h1>
-                    <button
-                        onClick={runBenchmark}
-                        className="benchmark-btn">
+                    <button onClick={runBenchmark} className="benchmark-btn">
                         Run Benchmark (1000 tasks)
                     </button>
                 </header>
@@ -120,9 +121,7 @@ function App() {
                             />
                         </div>
 
-                        <button
-                            type="submit"
-                            className="submit-btn">
+                        <button type="submit" className="submit-btn">
                             Add Task
                         </button>
                     </form>
@@ -151,7 +150,10 @@ function App() {
                                     className={`task-item ${task.completed ? 'completed' : ''}`}>
                                     <div className="task-content">
                                         <div>
-                                            <h3 className={`task-title ${task.completed ? 'completed' : ''}`}>
+                                            <h3
+                                                className={`task-title ${
+                                                    task.completed ? 'completed' : ''
+                                                }`}>
                                                 {task.title}
                                             </h3>
                                             {task.description && (
@@ -160,12 +162,17 @@ function App() {
                                                 </p>
                                             )}
                                             <p className="task-date">
-                                                Created: {new Date(task.created_at).toLocaleString()}
+                                                Created:{' '}
+                                                {new Date(task.created_at).toLocaleString()}
                                             </p>
                                         </div>
                                         <button
-                                            onClick={() => toggleTaskStatus(task.id, task.completed)}
-                                            className={`status-btn ${task.completed ? 'completed' : 'pending'}`}>
+                                            onClick={() =>
+                                                toggleTaskStatus(task.id, task.completed)
+                                            }
+                                            className={`status-btn ${
+                                                task.completed ? 'completed' : 'pending'
+                                            }`}>
                                             {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
                                         </button>
                                     </div>
