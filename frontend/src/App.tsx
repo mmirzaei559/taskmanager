@@ -111,6 +111,41 @@ function App() {
                 </header>
 
                 <section className="section">
+                    <h2 className="section-title">Bulk Add Tasks</h2>
+                    <div className="bulk-section">
+                        <textarea
+                            value={bulkTasks}
+                            onChange={(e) => setBulkTasks(e.target.value)}
+                            placeholder="Enter one task per line"
+                            rows={5}
+                            className="input textarea"
+                        />
+                        <button
+                            onClick={handleBulkSubmit}
+                            disabled={processing}
+                            className={`submit-btn ${processing ? 'disabled' : ''}`}>
+                            {processing ? 'Processing...' : 'Add Tasks Concurrently'}
+                        </button>
+
+                        {results.length > 0 && (
+                            <div className="results">
+                                <h4>Results:</h4>
+                                <ul>
+                                    {results.map((result, i) => (
+                                        <li
+                                            key={i}
+                                            className={result.success ? 'success' : 'error'}>
+                                            {result.task.title}:
+                                            {result.success ? ' ✔' : ` ✖ (${result.error})`}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                <section className="section">
                     <h2 className="section-title">Add New Task</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -202,32 +237,6 @@ function App() {
                         </ul>
                     )}
                 </section>
-                <div className="bulk-section">
-                    <h3>Bulk Add Tasks</h3>
-                    <textarea
-                        value={bulkTasks}
-                        onChange={(e) => setBulkTasks(e.target.value)}
-                        placeholder="Enter one task per line"
-                        rows={5}
-                    />
-                    <button onClick={handleBulkSubmit} disabled={processing}>
-                        {processing ? 'Processing...' : 'Add Tasks Concurrently'}
-                    </button>
-
-                    {results.length > 0 && (
-                        <div className="results">
-                            <h4>Results:</h4>
-                            <ul>
-                                {results.map((result, i) => (
-                                    <li key={i}>
-                                        {result.task.title}:
-                                        {result.success ? '✔' : `✖ (${result.error})`}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
             </div>
         </div>
     );

@@ -94,7 +94,7 @@ func ProcessTasksConcurrently(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Channel for results
-	results := make(chan TaskResult, len(tasks))
+	results := make(chan models.TaskResult, len(tasks))
 	var wg sync.WaitGroup
 
 	// Process tasks concurrently
@@ -110,7 +110,7 @@ func ProcessTasksConcurrently(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	// Collect results
-	var response []TaskResult
+	var response []models.TaskResult
 	for result := range results {
 		response = append(response, result)
 	}
@@ -119,10 +119,11 @@ func ProcessTasksConcurrently(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func processTask(task models.Task, results chan<- TaskResult, wg *sync.WaitGroup) {
+// chan<- (send-only)
+func processTask(task models.Task, results chan<- models.TaskResult, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	result := TaskResult{Task: task}
+	result := models.TaskResult{Task: task}
 
 	// Simulate processing delay
 	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
