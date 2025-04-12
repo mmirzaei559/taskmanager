@@ -9,3 +9,10 @@ type Task struct {
 	Completed   bool      `json:"completed"`
 	CreatedAt   time.Time `json:"created_at"`
 }
+
+type TaskResult struct {
+	Task    Task   `json:"task"`
+	TaskID  int64  `json:"task_id,omitempty"`
+	Success bool   `json:"success"`
+	Error   string `json:"error,omitempty"`
+}

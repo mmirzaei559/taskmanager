@@ -4,4 +4,11 @@ export interface Task {
     description: string;
     completed: boolean;
     created_at: string;
-  }
+}
+
+export interface TaskResult {
+    task: Task;
+    task_id?: number;
+    success: boolean;
+    error?: string;
+}

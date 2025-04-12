@@ -24,7 +24,7 @@ func dsn() string {
 
 func InitDB() {
 	var err error
-	DB, err = sql.Open("mysql", dsn())
+	DB, err = sql.Open("mysql", "root:m1403^BAHXWXRYXW@tcp(127.0.0.1:3306)/taskmanager?charset=utf8mb4&parseTime=True&loc=Local")
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
 	}

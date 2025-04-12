@@ -34,6 +34,7 @@ func main() {
 
 	mux.HandleFunc("/api/tasks/update", handlers.UpdateTask)
 	mux.HandleFunc("/api/benchmark", handlers.Benchmark)
+	mux.HandleFunc("/api/tasks/bulk", handlers.ProcessTasksConcurrently)
 
 	// Health check endpoint
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {

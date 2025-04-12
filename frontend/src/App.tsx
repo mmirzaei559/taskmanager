@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import type { Task } from './types/task';
+import type { Task, TaskResult } from './types/task';
 import './App.css';
 
 function App() {
@@ -9,6 +9,10 @@ function App() {
         title: '',
         description: '',
     });
+
+    const [bulkTasks, setBulkTasks] = useState<string>('');
+    const [processing, setProcessing] = useState(false);
+    const [results, setResults] = useState<TaskResult[]>([]);
 
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -76,6 +80,23 @@ function App() {
             await fetchTasks();
         } catch (err) {
             setError('Benchmark failed');
+        }
+    };
+
+    const handleBulkSubmit = async () => {
+        setProcessing(true);
+        try {
+            const tasks = bulkTasks
+                .split('\n')
+                .filter((t) => t.trim())
+                .map((title) => ({ title, description: '' }));
+
+            const response = await axios.post('/api/tasks/bulk', tasks);
+            setResults(response.data);
+        } catch (err) {
+            setError('Bulk processing failed');
+        } finally {
+            setProcessing(false);
         }
     };
 
@@ -181,6 +202,32 @@ function App() {
                         </ul>
                     )}
                 </section>
+                <div className="bulk-section">
+                    <h3>Bulk Add Tasks</h3>
+                    <textarea
+                        value={bulkTasks}
+                        onChange={(e) => setBulkTasks(e.target.value)}
+                        placeholder="Enter one task per line"
+                        rows={5}
+                    />
+                    <button onClick={handleBulkSubmit} disabled={processing}>
+                        {processing ? 'Processing...' : 'Add Tasks Concurrently'}
+                    </button>
+
+                    {results.length > 0 && (
+                        <div className="results">
+                            <h4>Results:</h4>
+                            <ul>
+                                {results.map((result, i) => (
+                                    <li key={i}>
+                                        {result.task.title}:
+                                        {result.success ? '✔' : `✖ (${result.error})`}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
