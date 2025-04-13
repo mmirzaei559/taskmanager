@@ -91,7 +91,7 @@ function App() {
                 .filter((t) => t.trim())
                 .map((title) => ({ title, description: '' }));
 
-            const response = await axios.post('/api/tasks/bulk', tasks);
+            const response = await axios.post(`${API_BASE_URL}/api/tasks/bulk`, tasks);
             setResults(response.data);
         } catch (err) {
             setError('Bulk processing failed');
