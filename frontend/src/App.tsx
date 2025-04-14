@@ -13,12 +13,9 @@ function App() {
     const [bulkTasks, setBulkTasks] = useState<string>('');
     const [processing, setProcessing] = useState(false);
     const [results, setResults] = useState<TaskResult[]>([]);
-
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-    console.log(API_BASE_URL);
 
     const fetchTasks = async () => {
         setIsLoading(true);
@@ -93,6 +90,7 @@ function App() {
 
             const response = await axios.post(`${API_BASE_URL}/api/tasks/bulk`, tasks);
             setResults(response.data);
+            await fetchTasks(); // Refresh the task list
         } catch (err) {
             setError('Bulk processing failed');
         } finally {
@@ -109,11 +107,6 @@ function App() {
                         Run Benchmark (1000 tasks)
                     </button>
                 </header>
-
-                <p className="task-meta">
-                    Added from: {task.client_ip || 'Unknown'} • Created:{' '}
-                    {new Date(task.created_at).toLocaleString()}
-                </p>
 
                 <section className="section">
                     <h2 className="section-title">Bulk Add Tasks</h2>
@@ -222,10 +215,13 @@ function App() {
                                                     {task.description}
                                                 </p>
                                             )}
-                                            <p className="task-date">
-                                                Created:{' '}
-                                                {new Date(task.created_at).toLocaleString()}
-                                            </p>
+                                            <div className="task-meta">
+                                                <span>From: {task.client_ip || 'Unknown'}</span>
+                                                <span>
+                                                    Created:{' '}
+                                                    {new Date(task.created_at).toLocaleString()}
+                                                </span>
+                                            </div>
                                         </div>
                                         <button
                                             onClick={() =>
