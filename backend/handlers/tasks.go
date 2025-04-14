@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/mmirzaei559/taskmanager/database"
+	"github.com/mmirzaei559/taskmanager/middleware"
 	"github.com/mmirzaei559/taskmanager/models"
 )
 
@@ -83,6 +84,9 @@ func Benchmark(w http.ResponseWriter, r *http.Request) {
 
 // handlers/tasks.go
 func ProcessTasksConcurrently(w http.ResponseWriter, r *http.Request) {
+	clientIP := middleware.GetClientIP(r)
+	log.Printf("Bulk tasks from IP: %s", clientIP)
+
 	startTime := time.Now()
 	log.Printf("🚀 Bulk processing started at %v", startTime.Format("15:04:05.000"))
 

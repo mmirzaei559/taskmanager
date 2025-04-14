@@ -8,8 +8,7 @@ import (
 )
 
 func GetAllTasks() ([]models.Task, error) {
-	query := "SELECT id, title, description, completed, created_at FROM tasks"
-	rows, err := DB.Query(query)
+	rows, err := DB.Query("SELECT id, title, description, completed, created_at, client_ip FROM tasks")
 	if err != nil {
 		return nil, err
 	}
@@ -29,11 +28,11 @@ func GetAllTasks() ([]models.Task, error) {
 	return tasks, nil
 }
 
-func CreateTask(title, description string) (int64, error) {
-	result, err := DB.Exec("INSERT INTO tasks (title, description) VALUES (?, ?)", title, description)
-	if err != nil {
-		return 0, err
-	}
+func CreateTask(title, description, clientIP string) (int64, error) {
+	result, err := DB.Exec(
+		"INSERT INTO tasks (title, description, client_ip) VALUES (?, ?, ?)",
+		title, description, clientIP,
+	)
 
 	id, err := result.LastInsertId()
 	if err != nil {

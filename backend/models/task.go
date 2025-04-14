@@ -8,6 +8,7 @@ type Task struct {
 	Description string    `json:"description"`
 	Completed   bool      `json:"completed"`
 	CreatedAt   time.Time `json:"created_at"`
+	ClientIP    string    `json:"client_ip"`
 }
 
 type TaskResult struct {

@@ -4,6 +4,7 @@ export interface Task {
     description: string;
     completed: boolean;
     created_at: string;
+    client_ip?: string;
 }
 
 export interface TaskResult {

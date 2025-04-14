@@ -110,6 +110,11 @@ function App() {
                     </button>
                 </header>
 
+                <p className="task-meta">
+                    Added from: {task.client_ip || 'Unknown'} • Created:{' '}
+                    {new Date(task.created_at).toLocaleString()}
+                </p>
+
                 <section className="section">
                     <h2 className="section-title">Bulk Add Tasks</h2>
                     <div className="bulk-section">
