@@ -17,3 +17,14 @@ type TaskResult struct {
 	Success bool   `json:"success"`
 	Error   string `json:"error,omitempty"`
 }
+
+type APIError struct {
+	StatusCode int    `json:"-"`
+	Message    string `json:"message"`
+	Details    string `json:"details,omitempty"`
+}
+
+// Error implements error.
+func (a *APIError) Error() string {
+	panic("unimplemented")
+}
